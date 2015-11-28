@@ -1,0 +1,17 @@
+group 'HttpApiCodeGenerator'
+version '0.1'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "com.google.code.gson:gson:2.5"
+    compile "org.freemarker:freemarker:2.3.23"
+    compile files("libs/HttpApiCodeGenerator-0.1.jar")
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
