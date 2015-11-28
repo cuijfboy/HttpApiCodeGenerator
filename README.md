@@ -34,15 +34,15 @@ errorInfo   |String |header |必填     |错误信息描述
     "httpMethod": "HttpMethod.POST",
     "url": "http://www.example.com/login",
     "requestParameterList": [
-      {"name": "userName", "type": "String",  "isHeader": false },
-      { "name": "userPassword", "type": "String", "isHeader": false },
-      {"name": "token", "type": "String", "isHeader": true }
+      { "name": "userName",     "type": "String",   "isHeader": false },
+      { "name": "userPassword", "type": "String",   "isHeader": false },
+      { "name": "token",        "type": "String",   "isHeader": true }
     ],
     "responseParameterList": [
-      { "name": "userId",  "type": "String", "isHeader": false },
-      { "name": "nickName", "type": "String", "isHeader": false },
-      { "name": "errorCode", "type": "int", "isHeader": false },
-      { "name": "errorInfo", "type": "String", "isHeader": false }
+      { "name": "userId",       "type": "String",   "isHeader": false },
+      { "name": "nickName",     "type": "String",   "isHeader": false },
+      { "name": "errorCode",    "type": "int",      "isHeader": false },
+      { "name": "errorInfo",    "type": "String",   "isHeader": false }
     ],
     "hookName": "com.ilab.http.code.generator.sample.SampleHook"
   }
