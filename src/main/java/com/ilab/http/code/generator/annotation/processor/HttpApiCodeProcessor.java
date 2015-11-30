@@ -19,31 +19,31 @@ import java.util.Set;
 @SupportedAnnotationTypes({"com.ilab.http.code.generator.annotation.HttpApiCode"})
 public class HttpApiCodeProcessor extends AbstractProcessor {
 
-    final String TAG = HttpApiCodeProcessor.class.getSimpleName();
+    final String TAG = "[" + HttpApiCodeProcessor.class.getSimpleName() + "]";
     Messager messager;
-    List<HttpApiCodeRecord> recordList;
+    List<String> configFilePathList;
     HttpApiCodeGenerator generator;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
         messager = processingEnv.getMessager();
-        recordList = new ArrayList<>();
+        configFilePathList = new ArrayList<>();
         messager.printMessage(Diagnostic.Kind.NOTE, TAG + " initialized!");
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         if (annotations.size() == 0) {
-            for (HttpApiCodeRecord record : recordList) {
-                if (record.apiInfoJsonFile.trim().equals("")
-                        || record.codeFileOutputFolder.trim().equals("")) {
+            for (String configFilePath : this.configFilePathList) {
+                if (configFilePath.trim().equals("")) {
                     continue;
                 }
                 generator = generator == null ? new HttpApiCodeGenerator() : generator;
-                messager.printMessage(Diagnostic.Kind.NOTE, "Generating code for record : " + record);
-                generator.generate(new File(record.apiInfoJsonFile), record.codeFileOutputFolder);
-                messager.printMessage(Diagnostic.Kind.NOTE, "Code has been generated successfully for record : " + record);
+                messager.printMessage(Diagnostic.Kind.NOTE, TAG + " Generating code file(s) for " + configFilePath);
+                generator.generate(new File(configFilePath));
+                messager.printMessage(Diagnostic.Kind.NOTE,
+                        TAG + " Code file(s) has been generated successfully for " + configFilePath);
             }
             return true;
         }
@@ -51,11 +51,10 @@ public class HttpApiCodeProcessor extends AbstractProcessor {
             for (Element element : roundEnv.getElementsAnnotatedWith(typeElement)) {
                 if (HttpApiCode.class.getName().equals(typeElement.toString())) {
                     HttpApiCode httpApiCode = element.getAnnotation(HttpApiCode.class);
-                    HttpApiCodeRecord record = new HttpApiCodeRecord();
-                    record.apiInfoJsonFile = httpApiCode.apiInfoJsonFile();
-                    record.codeFileOutputFolder = httpApiCode.codeFileOutputFolder();
-                    recordList.add(record);
-                    messager.printMessage(Diagnostic.Kind.NOTE, "Found cord record : " + record);
+                    String configFilePath = httpApiCode.configFile();
+                    configFilePathList.add(configFilePath);
+                    messager.printMessage(Diagnostic.Kind.NOTE,
+                            TAG + " Found HttpApiCode with configFile : " + configFilePath);
                 }
             }
         }

@@ -14,9 +14,9 @@ public class LoginRequest extends BaseRequest {
     private final String HOOK_NAME = "com.ilab.http.code.generator.sample.SampleHook";
 
     public class Request {
-       public  String userName;
-       public  String userPassword;
        public transient String token;
+       public String userName;
+       public String userPassword;
 
         private void generateMethod() {
             method = HttpMethod.POST;
@@ -28,8 +28,6 @@ public class LoginRequest extends BaseRequest {
 
         private void generateHeader() {
             header.clear();
-            
-            
             header.put("token", token);
         }
 
@@ -39,6 +37,7 @@ public class LoginRequest extends BaseRequest {
     }
 
     public class Response {
+        public transient String session;
         public String userId;
         public String nickName;
         public int errorCode;
