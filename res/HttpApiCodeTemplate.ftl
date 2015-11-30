@@ -66,9 +66,7 @@ public class ${api.name} extends BaseRequest {
         getRequestData().generateUrl();
         getRequestData().generateHeader();
         getRequestData().generateBody();
-        if (hook != null) {
-            hook.onRequest(API_NAME, method, url, header, body, getRequestData(), getRequestData().getClass());
-        }
+        hook.onRequest(API_NAME, method, url, header, body, getRequestData(), getRequestData().getClass());
         Utils.getHttpClient().request(this);
         return this;
     }
@@ -85,16 +83,12 @@ public class ${api.name} extends BaseRequest {
 
     private void generateResponseData(Map<String, String> header, String body) {
         response = Utils.getGson().fromJson(body, Response.class);
-        if (hook != null) {
-            hook.onResponseData(API_NAME, response, response.getClass(), header, body);
-        }
+        hook.onResponseData(API_NAME, response, response.getClass(), header, body);
     }
 
     @Override
     public final void onResponse(int statusCode, Map<String, String> header, String body) {
-        if (hook != null) {
-            hook.onResponse(API_NAME, statusCode, header, body);
-        }
+        hook.onResponse(API_NAME, statusCode, header, body);
         generateResponseData(header, body);
         if (listener != null) {
             listener.onResponse(statusCode, response, header, body);
