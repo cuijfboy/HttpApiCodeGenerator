@@ -17,12 +17,15 @@ public class ${api.name} extends BaseRequest {
     private final String HOOK_NAME = <#if api.hookName??>"${api.hookName}"<#else>null</#if>;
 
     public class Request {
-       <#list api.requestParameterList as parameter>
-       public <#if parameter.isHeader == true>transient</#if> ${parameter.type} ${parameter.name};
+       <#list api.request.header?keys as parameter>
+       public transient ${api.request.header[parameter]} ${parameter};
+       </#list>
+       <#list api.request.body?keys as parameter>
+       public ${api.request.body[parameter]} ${parameter};
        </#list>
 
         private void generateMethod() {
-            method = ${api.httpMethod};
+            method = HttpMethod.${api.method};
         }
 
         private void generateUrl() {
@@ -31,8 +34,8 @@ public class ${api.name} extends BaseRequest {
 
         private void generateHeader() {
             header.clear();
-            <#list api.requestParameterList as parameter>
-            <#if parameter.isHeader == true>header.put("${parameter.name}", ${parameter.name});</#if>
+            <#list api.request.header?keys as parameter>
+            header.put("${parameter}", ${parameter});
             </#list>
         }
 
@@ -42,8 +45,11 @@ public class ${api.name} extends BaseRequest {
     }
 
     public class Response {
-        <#list api.responseParameterList as parameter>
-        public ${parameter.type} ${parameter.name};
+        <#list api.response.header?keys as parameter>
+        public transient ${api.response.header[parameter]} ${parameter};
+        </#list>
+        <#list api.response.body?keys as parameter>
+        public ${api.response.body[parameter]} ${parameter};
         </#list>
     }
 

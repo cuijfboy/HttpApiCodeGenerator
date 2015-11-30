@@ -12,6 +12,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface HttpApiCode {
 
-    String apiInfoJsonFile() default "";
-    String codeFileOutputFolder() default "";
+    String configFile() default "";
 }
