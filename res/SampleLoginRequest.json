@@ -1,0 +1,64 @@
+{
+  "defaultApi": {
+    "method": "POST",
+    "urlBase": "http://www.example.com/",
+    "request": {
+      "header": {
+        "token": "String"
+      },
+      "body": {
+        "userName": "String",
+        "userPassword": "String"
+      }
+    },
+    "response": {
+      "header": {
+        "session": "String"
+      },
+      "body": {
+        "errorCode": "int",
+        "errorInfo": "String"
+      }
+    },
+    "packageName": "com.ilab.http.code.generated",
+    "hookName": "com.ilab.http.code.generator.sample.SampleHook",
+    "importList": [],
+    "codeFileFolder": "./src/main/java/com/ilab/http/code/generated/"
+  },
+  "httpApi": {
+    "LoginRequest": {
+      "urlWithoutBase": "login",
+      "request": {
+        "body": {
+          "userName": "String",
+          "userPassword": "String"
+        }
+      },
+      "response": {
+        "body": {
+          "userId": "String",
+          "nickName": "String"
+        }
+      }
+    },
+    "LoginRequest2": {
+      "urlWithoutBase": "login",
+      "request": {
+        "header": {
+          "token": null
+        },
+        "body": {
+          "userName": "String",
+          "userPassword": "String"
+        }
+      },
+      "response": {
+        "body": {
+          "userId": "String",
+          "nickName": "String",
+          "errorInfo": null
+        }
+      }
+    }
+  }
+}
