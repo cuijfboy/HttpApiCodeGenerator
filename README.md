@@ -26,27 +26,35 @@ errorInfo   |String |header |必填     |错误信息描述
 
 用Json描述是这样：
 ```json
-[
-  {
-    "name": "LoginRequest",
+{
+  "defaultApi": {
+    "method": "POST",
+    "urlBase": "http://www.example.com/",
+    "request": {
+      "header": { "token": "String" },
+      "body": { "userName": "String", "userPassword": "String" }
+    },
+    "response": {
+      "header": { "session": "String" },
+      "body": { "errorCode": "int", "errorInfo": "String" }
+    },
     "packageName": "com.ilab.http.code.generated",
+    "hookName": "com.ilab.http.code.generator.sample.SampleHook",
     "importList": [],
-    "httpMethod": "HttpMethod.POST",
-    "url": "http://www.example.com/login",
-    "requestParameterList": [
-      { "name": "userName",     "type": "String",   "isHeader": false },
-      { "name": "userPassword", "type": "String",   "isHeader": false },
-      { "name": "token",        "type": "String",   "isHeader": true }
-    ],
-    "responseParameterList": [
-      { "name": "userId",       "type": "String",   "isHeader": false },
-      { "name": "nickName",     "type": "String",   "isHeader": false },
-      { "name": "errorCode",    "type": "int",      "isHeader": false },
-      { "name": "errorInfo",    "type": "String",   "isHeader": false }
-    ],
-    "hookName": "com.ilab.http.code.generator.sample.SampleHook"
+    "codeFileFolder": "./src/main/java/com/ilab/http/code/generated/"
+  },
+  "httpApi": {
+    "LoginRequest": {
+      "urlWithoutBase": "login",
+      "request": {
+        "body": { "userName": "String", "userPassword": "String" }
+      },
+      "response": {
+        "body": { "userId": "String", "nickName": "String" }
+      }
+    }
   }
-]
+}
 ```
 
 然后这么调用：
@@ -60,9 +68,12 @@ new LoginRequest() {
     }
 
     @Override
-    public boolean onResponse(int statusCode, Response data,
-            Map<String, String> header, String body) {
-        // do something
+    public boolean onResponse(int statusCode, Response data) {
+        System.out.println("data.errorCode = " + data.errorCode);
+        System.out.println("data.errorInfo = " + data.errorInfo);
+        System.out.println("data.userId = " + data.userId);
+        System.out.println("data.nickName = " + data.nickName);
+        // do something else
         return true;
     }
 }.go();
@@ -70,12 +81,10 @@ new LoginRequest() {
 
 文档里的需求就实现了。
 
-对了，别忘了在代码里加上这个注解：
+对了，别忘了引入jar包，并在代码里加上这个注解：
 
 ```java
-@HttpApiCode(
-    apiInfoJsonFile = "./res/SampleLoginRequest.json",
-    codeFileOutputFolder = "./src/main/java/com/ilab/http/code/generated/")
+@HttpApiCode(configFile = "./res/SampleLoginRequest.json")
 public class SampleMain {
     // something else
 }
@@ -94,14 +103,15 @@ import com.ilab.http.code.generator.Utils;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class LoginRequest extends BaseRequest {
     private final String API_NAME = "com.ilab.http.code.generated.LoginRequest";
     private final String HOOK_NAME = "com.ilab.http.code.generator.sample.SampleHook";
 
     public class Request {
-       public  String userName;
-       public  String userPassword;
        public transient String token;
+       public String userName;
+       public String userPassword;
 
         private void generateMethod() {
             method = HttpMethod.POST;
@@ -113,8 +123,6 @@ public class LoginRequest extends BaseRequest {
 
         private void generateHeader() {
             header.clear();
-
-
             header.put("token", token);
         }
 
@@ -124,6 +132,7 @@ public class LoginRequest extends BaseRequest {
     }
 
     public class Response {
+        public transient String session;
         public String userId;
         public String nickName;
         public int errorCode;
@@ -149,9 +158,7 @@ public class LoginRequest extends BaseRequest {
         getRequestData().generateUrl();
         getRequestData().generateHeader();
         getRequestData().generateBody();
-        if (hook != null) {
-            hook.onRequest(API_NAME, method, url, header, body, getRequestData(), getRequestData().getClass());
-        }
+        hook.onRequest(API_NAME, method, url, header, body, getRequestData(), getRequestData().getClass());
         Utils.getHttpClient().request(this);
         return this;
     }
@@ -168,16 +175,12 @@ public class LoginRequest extends BaseRequest {
 
     private void generateResponseData(Map<String, String> header, String body) {
         response = Utils.getGson().fromJson(body, Response.class);
-        if (hook != null) {
-            hook.onResponseData(API_NAME, response, response.getClass(), header, body);
-        }
+        hook.onResponseData(API_NAME, response, response.getClass(), header, body);
     }
 
     @Override
     public final void onResponse(int statusCode, Map<String, String> header, String body) {
-        if (hook != null) {
-            hook.onResponse(API_NAME, statusCode, header, body);
-        }
+        hook.onResponse(API_NAME, statusCode, header, body);
         generateResponseData(header, body);
         if (listener != null) {
             listener.onResponse(statusCode, response, header, body);
