@@ -9,15 +9,15 @@ import java.util.HashMap;
 /**
  * Created by cuijfboy on 15/11/28.
  */
-public class HttpClientAdapter implements IHttpClient {
+public class DefaultHttpClient implements IHttpClient {
 
     @Override
     public void request(IHttpRequest request) {
         System.out.println();
-        System.out.println("HttpClientAdapter request.getMethod() = " + request.getMethod());
-        System.out.println("HttpClientAdapter request.getUrl() = " + request.getUrl());
-        System.out.println("HttpClientAdapter request.getHeader() = " + request.getHeader());
-        System.out.println("HttpClientAdapter request.getBody() = " + request.getBody());
+        System.out.println("DefaultHttpClient request.getMethod() = " + request.getMethod());
+        System.out.println("DefaultHttpClient request.getUrl() = " + request.getUrl());
+        System.out.println("DefaultHttpClient request.getHeader() = " + request.getHeader());
+        System.out.println("DefaultHttpClient request.getBody() = " + request.getBody());
 
         request.getMethod();
         request.getUrl();

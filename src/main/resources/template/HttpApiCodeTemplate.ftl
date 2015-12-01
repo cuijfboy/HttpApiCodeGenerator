@@ -1,6 +1,7 @@
 package ${api.packageName};
 
 import com.ilab.http.IApiHook;
+import com.ilab.http.IHttpClient;
 import com.ilab.http.code.template.BaseRequest;
 import com.ilab.http.HttpMethod;
 import com.ilab.http.code.generator.Utils;
@@ -67,14 +68,18 @@ public class ${api.name} extends BaseRequest {
         return ${api.name};
     }
 
-    public ${api.name} go() {
+    public ${api.name} go(IHttpClient httpClient) {
         getRequestData().generateMethod();
         getRequestData().generateUrl();
         getRequestData().generateHeader();
         getRequestData().generateBody();
         hook.onRequest(API_NAME, method, url, header, body, getRequestData(), getRequestData().getClass());
-        Utils.getHttpClient().request(this);
+        httpClient.request(this);
         return this;
+    }
+
+    public ${api.name} go() {
+        return go(Utils.getDefaultHttpClient());
     }
 
 // Fixed BEGIN ##################################

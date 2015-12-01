@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.ilab.http.EmptyHook;
 import com.ilab.http.IApiHook;
 import com.ilab.http.IHttpClient;
-import com.ilab.http.code.generator.sample.HttpClientAdapter;
+import com.ilab.http.code.generator.sample.DefaultHttpClient;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -19,8 +19,8 @@ public class Utils {
 
     private static IHttpClient httpClient;
 
-    public static synchronized IHttpClient getHttpClient() {
-        return httpClient == null ? (httpClient = new HttpClientAdapter()) : httpClient;
+    public static synchronized IHttpClient getDefaultHttpClient() {
+        return httpClient == null ? (httpClient = new DefaultHttpClient()) : httpClient;
     }
 
     private static Gson gson;

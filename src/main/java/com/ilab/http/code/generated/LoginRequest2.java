@@ -1,6 +1,7 @@
 package com.ilab.http.code.generated;
 
 import com.ilab.http.IApiHook;
+import com.ilab.http.IHttpClient;
 import com.ilab.http.code.template.BaseRequest;
 import com.ilab.http.HttpMethod;
 import com.ilab.http.code.generator.Utils;
@@ -55,14 +56,18 @@ public class LoginRequest2 extends BaseRequest {
         return LoginRequest2;
     }
 
-    public LoginRequest2 go() {
+    public LoginRequest2 go(IHttpClient httpClient) {
         getRequestData().generateMethod();
         getRequestData().generateUrl();
         getRequestData().generateHeader();
         getRequestData().generateBody();
         hook.onRequest(API_NAME, method, url, header, body, getRequestData(), getRequestData().getClass());
-        Utils.getHttpClient().request(this);
+        httpClient.request(this);
         return this;
+    }
+
+    public LoginRequest2 go() {
+        return go(Utils.getDefaultHttpClient());
     }
 
 // Fixed BEGIN ##################################

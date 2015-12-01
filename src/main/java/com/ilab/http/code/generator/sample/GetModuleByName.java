@@ -59,7 +59,7 @@ public class GetModuleByName extends BaseRequest {
         GetModuleByName.generateUrl();
         GetModuleByName.generateHeader();
         GetModuleByName.generateBody();
-        Utils.getHttpClient().request(this);
+        Utils.getDefaultHttpClient().request(this);
         return this;
     }
 
