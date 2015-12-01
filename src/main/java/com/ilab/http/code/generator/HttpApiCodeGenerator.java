@@ -44,8 +44,7 @@ public class HttpApiCodeGenerator {
     }
 
     private void loadApiInfo(String apiJsonInfo) {
-        apiJson = new GsonBuilder().serializeNulls().create()
-                .fromJson(apiJsonInfo, HttpApiJson.class);
+        apiJson = Utils.getSerializeNullGson().fromJson(apiJsonInfo, HttpApiJson.class);
         apiJson.refresh();
         System.out.println("[HttpApiCodeGenerator] globalConfig loaded :\n " + apiJson.getGlobalConfig());
     }

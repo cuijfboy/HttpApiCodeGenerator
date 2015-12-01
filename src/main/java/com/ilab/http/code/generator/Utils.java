@@ -1,6 +1,7 @@
 package com.ilab.http.code.generator;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.ilab.http.EmptyHook;
 import com.ilab.http.IApiHook;
 import com.ilab.http.IHttpClient;
@@ -23,10 +24,16 @@ public class Utils {
         return httpClient == null ? (httpClient = new DefaultHttpClient()) : httpClient;
     }
 
-    private static Gson gson;
+    private static Gson defaultGson;
+    private static Gson serializeNullGson;
 
     public static synchronized Gson getGson() {
-        return gson == null ? (gson = new Gson()) : gson;
+        return defaultGson == null ? (defaultGson = new Gson()) : defaultGson;
+    }
+
+    public static synchronized Gson getSerializeNullGson() {
+        return serializeNullGson == null ?
+                (serializeNullGson = new GsonBuilder().serializeNulls().create()) : serializeNullGson;
     }
 
     private static Map<String, IApiHook> hookMap = new HashMap<>();
