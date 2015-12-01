@@ -1,16 +1,12 @@
 package com.ilab.http.code.generator;
 
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.ilab.http.HttpMethod;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,11 +47,11 @@ public class HttpApiCodeGenerator {
         apiJson = new GsonBuilder().serializeNulls().create()
                 .fromJson(apiJsonInfo, HttpApiJson.class);
         apiJson.refresh();
-        System.out.println("[HttpApiCodeGenerator] defaultApi loaded :\n " + apiJson.getDefaultApi());
+        System.out.println("[HttpApiCodeGenerator] globalConfig loaded :\n " + apiJson.getGlobalConfig());
     }
 
     public void generateCode() {
-        for (HttpApi api : apiJson.getHttpApiMap().values()) {
+        for (HttpApi api : apiJson.getApiMap().values()) {
             System.out.println("[HttpApiCodeGenerator] generating api : \n " + api);
             File outputFolder = new File(api.getCodeFileFolder());
             if (!outputFolder.exists()) {
@@ -74,7 +70,7 @@ public class HttpApiCodeGenerator {
             }
             System.out.println("[HttpApiCodeGenerator] " + api.getName() + " generated as " + codeFilePath);
         }
-        System.out.println("[HttpApiCodeGenerator] generated " + apiJson.getHttpApiMap().size() + " api code file(s).");
+        System.out.println("[HttpApiCodeGenerator] generated " + apiJson.getApiMap().size() + " api code file(s).");
     }
 
 }

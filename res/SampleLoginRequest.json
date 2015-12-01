@@ -1,5 +1,5 @@
 {
-  "defaultApi": {
+  "global": {
     "method": "POST",
     "urlBase": "http://www.example.com/",
     "request": {
@@ -25,7 +25,7 @@
     "importList": [],
     "codeFileFolder": "./src/main/java/com/ilab/http/code/generated/"
   },
-  "httpApi": {
+  "local": {
     "LoginRequest": {
       "url": "login",
       "request": {

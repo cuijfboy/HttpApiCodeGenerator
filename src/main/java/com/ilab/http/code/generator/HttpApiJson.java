@@ -6,20 +6,20 @@ import java.util.Map;
  * Created by cuijfboy on 15/11/30.
  */
 public class HttpApiJson {
-    private HttpApi defaultApi;
-    private Map<String, HttpApi> httpApi;
+    private HttpApi global;
+    private Map<String, HttpApi> local;
 
     public void refresh() {
-        for (Map.Entry<String, HttpApi> entry : httpApi.entrySet()) {
-            entry.getValue().combine(entry.getKey(), defaultApi);
+        for (Map.Entry<String, HttpApi> entry : local.entrySet()) {
+            entry.getValue().combine(entry.getKey(), global);
         }
     }
 
-    public HttpApi getDefaultApi() {
-        return defaultApi;
+    public HttpApi getGlobalConfig() {
+        return global;
     }
 
-    public Map<String, HttpApi> getHttpApiMap() {
-        return httpApi;
+    public Map<String, HttpApi> getApiMap() {
+        return local;
     }
 }
