@@ -27,7 +27,7 @@ errorInfo   |String |header |必填     |错误信息描述
 用Json描述是这样：
 ```json
 {
-  "defaultApi": {
+  "global": {
     "method": "POST",
     "urlBase": "http://www.example.com/",
     "request": {
@@ -43,9 +43,9 @@ errorInfo   |String |header |必填     |错误信息描述
     "importList": [],
     "codeFileFolder": "./src/main/java/com/ilab/http/code/generated/"
   },
-  "httpApi": {
+  "local": {
     "LoginRequest": {
-      "urlWithoutBase": "login",
+      "url": "login",
       "request": {
         "body": { "userName": "String", "userPassword": "String" }
       },
@@ -96,6 +96,7 @@ public class SampleMain {
 package com.ilab.http.code.generated;
 
 import com.ilab.http.IApiHook;
+import com.ilab.http.IHttpClient;
 import com.ilab.http.code.template.BaseRequest;
 import com.ilab.http.HttpMethod;
 import com.ilab.http.code.generator.Utils;
@@ -153,14 +154,18 @@ public class LoginRequest extends BaseRequest {
         return LoginRequest;
     }
 
-    public LoginRequest go() {
+    public LoginRequest go(IHttpClient httpClient) {
         getRequestData().generateMethod();
         getRequestData().generateUrl();
         getRequestData().generateHeader();
         getRequestData().generateBody();
         hook.onRequest(API_NAME, method, url, header, body, getRequestData(), getRequestData().getClass());
-        Utils.getHttpClient().request(this);
+        httpClient.request(this);
         return this;
+    }
+
+    public LoginRequest go() {
+        return go(Utils.getDefaultHttpClient());
     }
 
 // Fixed BEGIN ##################################
@@ -205,5 +210,4 @@ public class LoginRequest extends BaseRequest {
 }
 
 // Fixed END ####################################
-
 ```
