@@ -29,7 +29,7 @@ public class ${api.name} extends BaseRequest {
         }
 
         private void generateUrl() {
-            url = "${api.url}";
+            url = "${api.fullUrl}";
         }
 
         private void generateHeader() {

@@ -10,9 +10,9 @@ import java.util.*;
 public class HttpApi {
     private String name;
     private HttpMethod method;
+    private String fullUrl;
     private String url;
     private String urlBase;
-    private String urlWithoutBase;
     private Map<String, Map<String, String>> request;
     private Map<String, Map<String, String>> response;
     private String packageName;
@@ -23,10 +23,10 @@ public class HttpApi {
     public void combine(String name, HttpApi api) {
         this.name = this.name == null ? name : this.name;
         this.method = this.method == null ? api.method : this.method;
-        if (this.url == null) {
+        if (this.fullUrl == null) {
             this.urlBase = this.urlBase == null ? api.urlBase : this.urlBase;
-            this.urlWithoutBase = this.urlWithoutBase == null ? api.urlBase : this.urlWithoutBase;
-            this.url = this.urlBase + this.urlWithoutBase;
+            this.url = this.url == null ? api.url : this.url;
+            this.fullUrl = this.urlBase + this.url;
         }
         combineParameterMap(this.request, api.request);
         combineParameterMap(this.response, api.response);
@@ -98,16 +98,16 @@ public class HttpApi {
         return method;
     }
 
+    public String getFullUrl() {
+        return fullUrl;
+    }
+
     public String getUrl() {
         return url;
     }
 
     public String getUrlBase() {
         return urlBase;
-    }
-
-    public String getUrlWithoutBase() {
-        return urlWithoutBase;
     }
 
     public Map<String, Map<String, String>> getRequest() {
@@ -139,9 +139,9 @@ public class HttpApi {
         return "HttpApi{" +
                 "name='" + name + '\'' +
                 ", method=" + method +
+                ", fullUrl='" + fullUrl + '\'' +
                 ", url='" + url + '\'' +
                 ", urlBase='" + urlBase + '\'' +
-                ", urlWithoutBase='" + urlWithoutBase + '\'' +
                 ", request=" + request +
                 ", response=" + response +
                 ", packageName='" + packageName + '\'' +

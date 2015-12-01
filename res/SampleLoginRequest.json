@@ -27,7 +27,7 @@
   },
   "httpApi": {
     "LoginRequest": {
-      "urlWithoutBase": "login",
+      "url": "login",
       "request": {
         "body": {
           "userName": "String",
@@ -42,7 +42,7 @@
       }
     },
     "LoginRequest2": {
-      "urlWithoutBase": "login",
+      "url": "login",
       "request": {
         "header": {
           "token": null
