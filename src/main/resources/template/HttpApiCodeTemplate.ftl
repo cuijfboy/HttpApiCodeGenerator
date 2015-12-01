@@ -31,6 +31,19 @@ public class ${api.name} extends BaseRequest {
 
         private void generateUrl() {
             url = "${api.fullUrl}";
+            <#if api.method == 'GET'>
+            if (HttpMethod.GET == method) {
+                StringBuffer sb = new StringBuffer(url);
+                sb.append("?");
+                <#list api.request.body?keys as parameter>
+                sb.append("${parameter}").append("=").append(${parameter}).append("&");
+                </#list>
+                sb.deleteCharAt(sb.length() - 1);
+                if (sb.length() != url.length()) {
+                    url = sb.toString();
+                }
+            }
+            </#if>
         }
 
         private void generateHeader() {
