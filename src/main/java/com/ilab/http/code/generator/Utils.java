@@ -2,10 +2,10 @@ package com.ilab.http.code.generator;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ilab.http.DefaultHttpClient;
 import com.ilab.http.EmptyHook;
 import com.ilab.http.IApiHook;
 import com.ilab.http.IHttpClient;
-import com.ilab.http.code.generator.sample.DefaultHttpClient;
 
 import java.io.*;
 import java.util.ArrayList;

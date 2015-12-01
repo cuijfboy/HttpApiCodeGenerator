@@ -32,15 +32,13 @@ public class SampleMain {
             }
 
             @Override
-            public boolean onResponse(int statusCode, Response data, Map<String, String> header, String body) {
+            public boolean onResponse(int statusCode, Response data) {
                 System.out.println();
-                System.out.println("onResponse statusCode = " + statusCode);
                 System.out.println("onResponse data.errorCode = " + data.errorCode);
                 System.out.println("onResponse data.errorInfo = " + data.errorInfo);
                 System.out.println("onResponse data.userId = " + data.userId);
                 System.out.println("onResponse data.nickName = " + data.nickName);
-                System.out.println("onResponse header = " + header);
-                System.out.println("onResponse body = " + body);
+                System.out.println("onResponse data.session = " + data.session);
                 return true;
             }
         }.go();

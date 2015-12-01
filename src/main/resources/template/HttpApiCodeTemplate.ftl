@@ -82,6 +82,15 @@ public class ${api.name} extends BaseRequest {
         return go(Utils.getDefaultHttpClient());
     }
 
+    private void generateResponseData(Map<String, String> header, String body) {
+        response = Utils.getGson().fromJson(body, Response.class);
+        response = response == null ? new Response() : response;
+        <#list api.response.header?keys as parameter>
+        response.${parameter} = header.get("${parameter}");
+        </#list>
+        hook.onResponseData(API_NAME, response, response.getClass(), header, body);
+    }
+
 // Fixed BEGIN ##################################
 
     private Response response;
@@ -90,11 +99,6 @@ public class ${api.name} extends BaseRequest {
 
     public void setResponseListener(ResponseListener listener) {
         this.listener = listener;
-    }
-
-    private void generateResponseData(Map<String, String> header, String body) {
-        response = Utils.getGson().fromJson(body, Response.class);
-        hook.onResponseData(API_NAME, response, response.getClass(), header, body);
     }
 
     @Override

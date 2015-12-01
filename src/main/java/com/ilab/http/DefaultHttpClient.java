@@ -1,13 +1,9 @@
-package com.ilab.http.code.generator.sample;
+package com.ilab.http;
 
-import com.ilab.http.IHttpClient;
-import com.ilab.http.IHttpRequest;
-
-import java.util.Collections;
 import java.util.HashMap;
 
 /**
- * Created by cuijfboy on 15/11/28.
+ * Created by cuijfboy on 15/12/1.
  */
 public class DefaultHttpClient implements IHttpClient {
 
@@ -23,10 +19,11 @@ public class DefaultHttpClient implements IHttpClient {
         request.getUrl();
         request.getHeader();
         request.getBody();
+
         request.onResponse(200,
                 new HashMap<String, String>() {
                     {
-                        put("sessionId", "9876543210");
+                        put("session", "9876543210");
                     }
                 }, "{\"userId\":\"123\"," +
                         "\"nickName\":\"administrator\"," +
