@@ -19,6 +19,7 @@ public class HttpApi {
     private String hookName;
     private List<String> importList;
     private String codeFileFolder;
+    private Map<String, Map<String, String>> model;
 
     public void combine(String name, HttpApi api) {
         this.name = this.name == null ? name : this.name;
@@ -62,10 +63,10 @@ public class HttpApi {
             }
         } else {
             if (thatMap == null) {
-                removeUnnecessoryParameter(thisMap);
+                removeUnnecessaryParameter(thisMap);
             } else {
                 addExtraParameter(thisMap, thatMap);
-                removeUnnecessoryParameter(thisMap);
+                removeUnnecessaryParameter(thisMap);
             }
         }
     }
@@ -80,7 +81,7 @@ public class HttpApi {
         }
     }
 
-    private void removeUnnecessoryParameter(Map<String, String> map) {
+    private void removeUnnecessaryParameter(Map<String, String> map) {
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
@@ -134,6 +135,58 @@ public class HttpApi {
         return codeFileFolder;
     }
 
+    public Map<String, Map<String, String>> getModel() {
+        return model;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMethod(HttpMethod method) {
+        this.method = method;
+    }
+
+    public void setFullUrl(String fullUrl) {
+        this.fullUrl = fullUrl;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setUrlBase(String urlBase) {
+        this.urlBase = urlBase;
+    }
+
+    public void setRequest(Map<String, Map<String, String>> request) {
+        this.request = request;
+    }
+
+    public void setResponse(Map<String, Map<String, String>> response) {
+        this.response = response;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public void setHookName(String hookName) {
+        this.hookName = hookName;
+    }
+
+    public void setImportList(List<String> importList) {
+        this.importList = importList;
+    }
+
+    public void setCodeFileFolder(String codeFileFolder) {
+        this.codeFileFolder = codeFileFolder;
+    }
+
+    public void setModel(Map<String, Map<String, String>> model) {
+        this.model = model;
+    }
+
     @Override
     public String toString() {
         return "HttpApi{" +
@@ -148,6 +201,7 @@ public class HttpApi {
                 ", hookName='" + hookName + '\'' +
                 ", importList=" + importList +
                 ", codeFileFolder='" + codeFileFolder + '\'' +
+                ", model=" + model +
                 '}';
     }
 }

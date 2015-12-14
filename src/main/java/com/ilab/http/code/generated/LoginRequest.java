@@ -45,6 +45,17 @@ public class LoginRequest extends BaseRequest {
         public String errorInfo;
     }
 
+    public class SessionLocal {
+        public String arg1;
+        public String arg2;
+        public String arg3;
+    }
+    public class SessionLocal2 {
+        public String arg1;
+        public String arg2;
+        public String arg3;
+    }
+
     // ------------------------------------------
 
     public Request LoginRequest;

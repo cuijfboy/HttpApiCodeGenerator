@@ -23,7 +23,14 @@
     "packageName": "com.ilab.http.code.generated",
     "hookName": "com.ilab.http.code.generator.sample.SampleHook",
     "importList": [],
-    "codeFileFolder": "./src/main/java/com/ilab/http/code/generated/"
+    "codeFileFolder": "./src/main/java/com/ilab/http/code/generated/",
+    "model": {
+      "Session": {
+        "arg1": "String",
+        "arg2": "String",
+        "arg3": "String"
+      }
+    }
   },
   "local": {
     "LoginRequest": {
@@ -39,10 +46,42 @@
           "userId": "String",
           "nickName": "String"
         }
+      },
+      "model": {
+        "SessionLocal": {
+          "arg1": "String",
+          "arg2": "String",
+          "arg3": "String"
+        },
+        "SessionLocal2": {
+          "arg1": "String",
+          "arg2": "String",
+          "arg3": "String"
+        }
       }
     },
     "LoginRequest2": {
       "url": "login",
+      "request": {
+        "header": {
+          "token": null
+        },
+        "body": {
+          "userName": "String",
+          "userPassword": "String"
+        }
+      },
+      "response": {
+        "body": {
+          "userId": "String",
+          "nickName": "String",
+          "errorInfo": null
+        }
+      }
+    },
+    "LoginRequest3": {
+      "url": "login",
+      "method": "GET",
       "request": {
         "header": {
           "token": null

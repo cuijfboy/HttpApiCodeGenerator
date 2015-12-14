@@ -1,4 +1,4 @@
-package ${api.packageName};
+package com.ilab.http.code.generated;
 
 import com.ilab.http.IApiHook;
 import com.ilab.http.IHttpClient;
@@ -9,48 +9,35 @@ import com.ilab.http.code.generator.Utils;
 import java.util.HashMap;
 import java.util.Map;
 
-<#list api.importList as import>
-import ${import};
-</#list>
 
-public class ${api.name} extends BaseRequest {
-    private final String API_NAME = "${api.packageName}.${api.name}";
-    private final String HOOK_NAME = <#if api.hookName??>"${api.hookName}"<#else>null</#if>;
+public class LoginRequest3 extends BaseRequest {
+    private final String API_NAME = "com.ilab.http.code.generated.LoginRequest3";
+    private final String HOOK_NAME = "com.ilab.http.code.generator.sample.SampleHook";
 
     public class Request {
-       <#list api.request.header?keys as parameter>
-       public transient ${api.request.header[parameter]} ${parameter};
-       </#list>
-       <#list api.request.body?keys as parameter>
-       public ${api.request.body[parameter]} ${parameter};
-       </#list>
+       public String userName;
+       public String userPassword;
 
         private void generateMethod() {
-            method = HttpMethod.${api.method};
+            method = HttpMethod.GET;
         }
 
         private void generateUrl() {
-            url = "${api.fullUrl}";
-            <#if api.method == 'GET'>
+            url = "http://www.example.com/login";
             if (HttpMethod.GET == method) {
                 StringBuffer sb = new StringBuffer(url);
                 sb.append("?");
-                <#list api.request.body?keys as parameter>
-                sb.append("${parameter}").append("=").append(${parameter}).append("&");
-                </#list>
+                sb.append("userName").append("=").append(userName).append("&");
+                sb.append("userPassword").append("=").append(userPassword).append("&");
                 sb.deleteCharAt(sb.length() - 1);
                 if (sb.length() != url.length()) {
                     url = sb.toString();
                 }
             }
-            </#if>
         }
 
         private void generateHeader() {
             header.clear();
-            <#list api.request.header?keys as parameter>
-            header.put("${parameter}", ${parameter});
-            </#list>
         }
 
         private void generateBody() {
@@ -59,29 +46,28 @@ public class ${api.name} extends BaseRequest {
     }
 
     public class Response {
-        <#list api.response.header?keys as parameter>
-        public transient ${api.response.header[parameter]} ${parameter};
-        </#list>
-        <#list api.response.body?keys as parameter>
-        public ${api.response.body[parameter]} ${parameter};
-        </#list>
+        public transient String session;
+        public String userId;
+        public String nickName;
+        public int errorCode;
     }
+
 
     // ------------------------------------------
 
-    public Request ${api.name};
+    public Request LoginRequest3;
 
-    public ${api.name}() {
+    public LoginRequest3() {
         this.header = new HashMap<>();
         this.hook = Utils.getHook(HOOK_NAME);
-        this.${api.name} = new Request();
+        this.LoginRequest3 = new Request();
     }
 
     public Request getRequestData() {
-        return ${api.name};
+        return LoginRequest3;
     }
 
-    public ${api.name} go(IHttpClient httpClient) {
+    public LoginRequest3 go(IHttpClient httpClient) {
         getRequestData().generateMethod();
         getRequestData().generateUrl();
         getRequestData().generateHeader();
@@ -91,16 +77,14 @@ public class ${api.name} extends BaseRequest {
         return this;
     }
 
-    public ${api.name} go() {
+    public LoginRequest3 go() {
         return go(Utils.getDefaultHttpClient());
     }
 
     private void generateResponseData(Map<String, String> header, String body) {
         response = Utils.getGson().fromJson(body, Response.class);
         response = response == null ? new Response() : response;
-        <#list api.response.header?keys as parameter>
-        response.${parameter} = header.get("${parameter}");
-        </#list>
+        response.session = header.get("session");
         hook.onResponseData(API_NAME, response, response.getClass(), header, body);
     }
 
